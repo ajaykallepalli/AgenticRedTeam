@@ -1,0 +1,157 @@
+# Default configuration for Agentic Red-Team Manager
+
+# API Configuration
+api:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 1
+  reload: false
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://localhost:8080"
+
+# Sandbox Configuration
+sandbox:
+  timeout: 300  # 5 minutes
+  memory_limit: "1GB"
+  cpu_limit: "0.5"  # 50% of one CPU core
+  network_isolation: true
+  allowed_domains:
+    - "api.openai.com"
+    - "api.anthropic.com"
+  docker_image: "python:3.11-slim"
+  cleanup_timeout: 30
+
+# AI/LLM Configuration
+llm:
+  primary_model: "gpt-4"
+  fallback_model: "gpt-3.5-turbo"
+  temperature: 0.7
+  max_tokens: 2048
+  timeout: 60
+  retry_attempts: 3
+  retry_delay: 1
+
+# Safety Evaluation Configuration
+safety:
+  max_risk_level: "medium"  # low, medium, high, critical
+  auto_intervention: true
+  safety_threshold: 30  # Minimum safety score (0-100)
+  risk_thresholds:
+    low: 25
+    medium: 50
+    high: 75
+    critical: 90
+  
+  # Content filtering
+  content_filters:
+    harmful_content: true
+    sensitive_data: true
+    system_prompts: true
+    training_data: true
+
+# Reporting Configuration
+reporting:
+  output_dir: "./reports"
+  default_format: "html"
+  include_raw_data: false
+  auto_generate: true
+  retention_days: 30
+  
+  # Report customization
+  templates:
+    executive_summary: true
+    detailed_analysis: true
+    recommendations: true
+    technical_appendix: true
+
+# Execution Configuration
+executor:
+  parallel_jobs: 1
+  timeout: 300
+  max_iterations: 10
+  retry_failed: true
+  log_level: "INFO"
+
+# Database Configuration
+database:
+  url: "postgresql://redteam:redteam123@localhost:5432/redteam"
+  pool_size: 10
+  max_overflow: 20
+  echo: false  # Set to true for SQL logging
+
+# Cache Configuration
+cache:
+  redis_url: "redis://localhost:6379/0"
+  ttl: 3600  # 1 hour
+  max_connections: 10
+
+# Monitoring Configuration
+monitoring:
+  enabled: true
+  metrics_port: 9000
+  prometheus_endpoint: "/metrics"
+  health_check_endpoint: "/health"
+  
+  # Performance tracking
+  track_execution_time: true
+  track_memory_usage: true
+  track_error_rates: true
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "json"
+  file: "./logs/redteam.log"
+  rotation: "daily"
+  retention: 7  # days
+  
+  # Component-specific logging
+  components:
+    adversarial: "INFO"
+    sandbox: "DEBUG"
+    evaluation: "INFO"
+    reporting: "INFO"
+
+# Security Configuration
+security:
+  secret_key: "your-secret-key-change-this-in-production"
+  jwt_algorithm: "HS256"
+  jwt_expire_minutes: 1440  # 24 hours
+  
+  # Rate limiting
+  rate_limit:
+    requests_per_minute: 60
+    burst_size: 10
+  
+  # Authentication
+  authentication:
+    enabled: false  # Set to true in production
+    providers: ["local", "oauth2"]
+
+# Notification Configuration
+notifications:
+  enabled: false
+  
+  # Email notifications
+  email:
+    smtp_host: "smtp.gmail.com"
+    smtp_port: 587
+    username: ""
+    password: ""
+    from_address: "noreply@agenticredteam.com"
+  
+  # Webhook notifications
+  webhooks:
+    slack: ""
+    discord: ""
+    teams: ""
+
+# Feature Flags
+features:
+  enable_api: true
+  enable_web_ui: false
+  enable_cli: true
+  enable_batch_processing: true
+  enable_advanced_analytics: false
+  enable_custom_models: false
